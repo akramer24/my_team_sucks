@@ -1,0 +1,16 @@
+{
+  "name": "red-sox-suck",
+  "version": "1.0.0",
+  "description": "How much did the Red Sox suck today?",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "emulate": "firebase emulators:start",
+    "test": "firebase emulators:exec 'jest'",
+    "test-watch": "firebase emulators:exec 'jest --watch'"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.21.1",
+    "jest": "^28.1.3"
+  }
+}
