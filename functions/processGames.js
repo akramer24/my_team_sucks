@@ -32,6 +32,39 @@ const meter = ({
     ((lastTenPct) - .500) * 20;
 };
 
+const idToHashtag = {
+  '108': '#GoHalos',
+  '109': '#Dbacks',
+  '110': '#Birdland',
+  '111': '#DirtyWater',
+  '112': '#ItsDifferentHere',
+  '113': '#ATOBTTR',
+  '114': '#ForTheLand',
+  '115': '#Rockies',
+  '116': '#DetroitRoots',
+  '117': '#LevelUp',
+  '118': '#TogetherRoyal',
+  '119': '#AlwaysLA',
+  '120': '#NATITUDE',
+  '121': '#LGM',
+  '133': '#DrumTogether',
+  '134': '#LetsGoBucs',
+  '135': '#TimeToShine',
+  '136': '#SeaUsRise',
+  '137': '#SFGameUp',
+  '138': '#STLCards',
+  '139': '#RaysUp',
+  '140': '#StraightUpTX',
+  '141': '#NextLevel',
+  '142': '#MNTwins',
+  '143': '#RingTheBell',
+  '144': '#ForTheA',
+  '145': '#ChangeTheGame',
+  '146': '#MakeItMiami',
+  '147': '#RepBX',
+  '158': '#ThisIsMyCrew',
+}
+
 const processGames = async (firestore) => {
   try {
     const allGamesRes = await axios.get(StatsRoutes.GAMES);
@@ -89,7 +122,9 @@ const processGames = async (firestore) => {
               sportRank: parseFloat(entry.sportRank),
               lastTenPct: parseFloat(entry.records.splitRecords.find((rec) => rec.type === "lastTen").pct),
             });
-            const finalTweet = `${pendingTweet} Their suck meter is now ${meterResult.toFixed(1)}.`;
+            const finalTweet = `${pendingTweet} Their suck meter is now ${meterResult.toFixed(1)}.
+            
+${idToHashtag[teamId]}`;
             try {
               await tweet(finalTweet);
               newFinals.games[gameId].tweets.push(teamId);
