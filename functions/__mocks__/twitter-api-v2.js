@@ -6,7 +6,7 @@ class MockTwitterApi {
   }
 }
 
-MockTwitterApi.mockTweet = jest.fn();
+MockTwitterApi.mockTweet = jest.fn(() => ({data: {id: "test-tweet-id"}}));
 
 twitter.TwitterApi = MockTwitterApi;
 

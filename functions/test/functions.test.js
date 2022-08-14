@@ -5,7 +5,8 @@ const dummyGames = require("./dummyGamesData.json");
 const dummyStandings = require("./dummyStandingsData.json");
 const {StatsRoutes, Collections, Sports} = require("../enums");
 const initializeFirebaseAdmin = require("../initializeFirebaseAdmin");
-const {tweet, processGames} = require("../processGames");
+const {tweet, processGames, suckMeterReport} = require("../functions");
+const {Seeder} = require("./seed");
 
 // This sets the mock adapter on the default instance
 const mock = new MockAdapter(axios);
@@ -15,7 +16,7 @@ const mock = new MockAdapter(axios);
 mock.onGet(StatsRoutes.GAMES).reply(200, dummyGames);
 mock.onGet(StatsRoutes.STANDINGS).reply(200, dummyStandings);
 
-describe("processGames.js", () => {
+describe("functions.js", () => {
   let firestore;
 
   beforeAll(() => {
@@ -76,6 +77,60 @@ describe("processGames.js", () => {
             {meter: 23.30944000000001, name: "Atlanta Braves", id: "144"},
             {meter: 48.39277, name: "Chicago White Sox", id: "145"},
             {meter: 35.748909999999995, name: "Milwaukee Brewers", id: "158"},
+          ],
+      );
+    });
+  });
+
+  describe("suckMeterReport", () => {
+    it("tweets a report of the suck meter rankings", async () => {
+      const seeder = new Seeder(firestore);
+      await seeder.seedTeams();
+      await suckMeterReport(firestore);
+      expect(TwitterApi.mockTweet).toHaveBeenCalledTimes(3);
+      expect(TwitterApi.mockTweet.mock.calls[0]).toEqual(
+          [`Daily Suck Meter Report
+1 #NATITUDE 113.3
+2 #DrumTogether 105.4
+3 #DetroitRoots 99.6
+4 #ATOBTTR 91.4
+5 #LetsGoBucs 87.3
+6 #StraightUpTX 81.2
+7 #TogetherRoyal 79.4
+8 #MakeItMiami 78.5
+9 #GoHalos 78.0
+10 #ItsDifferentHere 76.8`,
+          {},
+          ],
+      );
+      expect(TwitterApi.mockTweet.mock.calls[1]).toEqual(
+          [`Daily Suck Meter Report Pt. 2
+11 #Rockies 75.9
+12 #Dbacks 69.2
+13 #SFGameUp 65.3
+14 #DirtyWater 61.7
+15 #ChangeTheGame 51.7
+16 #RaysUp 48.2
+17 #Birdland 47.4
+18 #MNTwins 46.9
+19 #ThisIsMyCrew 44.6
+20 #NextLevel 42.1
+21 #ForTheLand 38.9`,
+          {"reply": {"in_reply_to_tweet_id": "test-tweet-id"}},
+          ],
+      );
+      expect(TwitterApi.mockTweet.mock.calls[2]).toEqual(
+          [`Daily Suck Meter Report Pt. 3
+22 #TimeToShine 37.8
+23 #SeaUsRise 36.7
+24 #RingTheBell 28.9
+25 #STLCards 28.6
+26 #ForTheA 26.4
+27 #RepBX 24.3
+28 #LevelUp 10.8
+29 #LGM 6.7
+30 #AlwaysLA -7.3`,
+          {"reply": {"in_reply_to_tweet_id": "test-tweet-id"}},
           ],
       );
     });

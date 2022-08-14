@@ -1,12 +1,12 @@
 const axios = require("axios");
 const {TwitterApi} = require("twitter-api-v2");
-const {Collections, Sports, StatsRoutes} = require("./enums");
 const {
   TWITTER_ACCESS_TOKEN,
   TWITTER_ACCESS_TOKEN_SECRET,
   TWITTER_API_KEY,
   TWITTER_API_KEY_SECRET,
 } = require("./secrets");
+const {Collections, Sports, StatsRoutes} = require("./enums");
 
 const twitterClient = new TwitterApi({
   appKey: TWITTER_API_KEY,
@@ -16,20 +16,8 @@ const twitterClient = new TwitterApi({
 });
 
 const tweet = async (data, payload = {}) => {
-  await twitterClient.v2.tweet(data, payload);
-};
-
-const meter = ({
-  gamesBack,
-  winningPercentage,
-  lastTenPct,
-  sportRank,
-}) => {
-  return 113.28 +
-    (.307 * gamesBack) -
-    (158.47 * winningPercentage) +
-    (1.144 * sportRank) -
-    ((lastTenPct) - .500) * 20;
+  const res = await twitterClient.v2.tweet(data, payload);
+  return res;
 };
 
 const idToHashtag = {
@@ -63,6 +51,19 @@ const idToHashtag = {
   "146": "#MakeItMiami",
   "147": "#RepBX",
   "158": "#ThisIsMyCrew",
+};
+
+const meter = ({
+  gamesBack,
+  winningPercentage,
+  lastTenPct,
+  sportRank,
+}) => {
+  return 113.28 +
+    (.307 * gamesBack) -
+    (158.47 * winningPercentage) +
+    (1.144 * sportRank) -
+    ((lastTenPct) - .500) * 20;
 };
 
 const processGames = async (firestore) => {
@@ -170,8 +171,53 @@ ${idToHashtag[teamId]}`;
   }
 };
 
+const suckMeterReport = async (firestore) => {
+  const teamsSnap = await firestore
+      .collection(Collections.SPORT)
+      .doc(Sports.BASE)
+      .collection(Collections.YEAR)
+      .doc("2022")
+      .collection(Collections.TEAMS)
+      .orderBy("meter", "desc")
+      .get();
+
+  const reportStart = "Daily Suck Meter Report";
+  let report = reportStart;
+  const tweets = [];
+  let rank = 1;
+  teamsSnap.forEach((doc) => {
+    const {id, meter} = doc.data();
+    const nextLine = `
+${rank} ${idToHashtag[id]} ${meter.toFixed(1)}`;
+
+    if (report.length + nextLine.length > 240) {
+      tweets.push(report);
+      report = `${reportStart} Pt. ${tweets.length + 1}${nextLine}`;
+    } else {
+      report += nextLine;
+
+      if (rank === 30) {
+        tweets.push(report);
+      }
+    }
+    rank++;
+  });
+
+  let inReplyTo = null;
+  for (const message of tweets) {
+    const data = {};
+    if (inReplyTo) {
+      data.reply = {in_reply_to_tweet_id: inReplyTo};
+    }
+    const res = await tweet(message, data);
+    inReplyTo = res.data.id;
+  }
+};
+
+
 module.exports = {
   meter,
   processGames,
+  suckMeterReport,
   tweet,
 };

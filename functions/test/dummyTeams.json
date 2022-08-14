@@ -1,0 +1,152 @@
+{
+  "108": {
+    "name": "Los Angeles Angels",
+    "meter": 78.03052,
+    "id": "108"
+  },
+  "109": {
+    "meter": 69.20114999999998,
+    "id": "109",
+    "name": "Arizona Diamondbacks"
+  },
+  "110": {
+    "meter": 47.40266,
+    "id": "110",
+    "name": "Baltimore Orioles"
+  },
+  "111": {
+    "meter": 61.67773,
+    "name": "Boston Red Sox",
+    "id": "111"
+  },
+  "112": {
+    "name": "Chicago Cubs",
+    "id": "112",
+    "meter": 76.7836
+  },
+  "113": {
+    "id": "113",
+    "name": "Cincinnati Reds",
+    "meter": 91.41529
+  },
+  "114": {
+    "meter": 38.860429999999994,
+    "id": "114",
+    "name": "Cleveland Guardians"
+  },
+  "115": {
+    "name": "Colorado Rockies",
+    "id": "115",
+    "meter": 75.85129
+  },
+  "116": {
+    "meter": 99.57021999999999,
+    "name": "Detroit Tigers",
+    "id": "116"
+  },
+  "117": {
+    "name": "Houston Astros",
+    "meter": 10.815790000000003,
+    "id": "117"
+  },
+  "118": {
+    "id": "118",
+    "meter": 79.36377,
+    "name": "Kansas City Royals"
+  },
+  "119": {
+    "name": "Los Angeles Dodgers",
+    "meter": -7.297349999999986,
+    "id": "119"
+  },
+  "120": {
+    "id": "120",
+    "meter": 113.30275,
+    "name": "Washington Nationals"
+  },
+  "121": {
+    "name": "New York Mets",
+    "id": "121",
+    "meter": 6.720969999999997
+  },
+  "133": {
+    "meter": 105.3843,
+    "id": "133",
+    "name": "Oakland Athletics"
+  },
+  "134": {
+    "id": "134",
+    "meter": 87.32544,
+    "name": "Pittsburgh Pirates"
+  },
+  "135": {
+    "name": "San Diego Padres",
+    "meter": 37.77870999999999,
+    "id": "135"
+  },
+  "136": {
+    "id": "136",
+    "name": "Seattle Mariners",
+    "meter": 36.745319999999985
+  },
+  "137": {
+    "id": "137",
+    "meter": 65.27773,
+    "name": "San Francisco Giants"
+  },
+  "138": {
+    "meter": 28.639619999999994,
+    "id": "138",
+    "name": "St. Louis Cardinals"
+  },
+  "139": {
+    "name": "Tampa Bay Rays",
+    "meter": 48.16881000000001,
+    "id": "139"
+  },
+  "140": {
+    "meter": 81.24314000000001,
+    "name": "Texas Rangers",
+    "id": "140"
+  },
+  "141": {
+    "name": "Toronto Blue Jays",
+    "id": "141",
+    "meter": 42.126349999999995
+  },
+  "142": {
+    "id": "142",
+    "meter": 46.87668999999999,
+    "name": "Minnesota Twins"
+  },
+  "143": {
+    "id": "143",
+    "name": "Philadelphia Phillies",
+    "meter": 28.941239999999986
+  },
+  "144": {
+    "meter": 26.39388000000001,
+    "name": "Atlanta Braves",
+    "id": "144"
+  },
+  "145": {
+    "id": "145",
+    "name": "Chicago White Sox",
+    "meter": 51.69027
+  },
+  "146": {
+    "id": "146",
+    "meter": 78.47476,
+    "name": "Miami Marlins"
+  },
+  "147": {
+    "id": "147",
+    "name": "New York Yankees",
+    "meter": 24.336840000000002
+  },
+  "158": {
+    "meter": 44.59223,
+    "name": "Milwaukee Brewers",
+    "id": "158"
+  }
+}
