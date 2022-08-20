@@ -8,8 +8,8 @@ const firestore = admin.firestore();
 // To test via http
 // exports.processGames = functions.https.onRequest(async (req, res) => {
 //   // http://localhost:5001/my-team-sucks/us-central1/processGames
-//   // await processGames(firestore);
-//   await suckMeterReport(firestore);
+//   await processGames(firestore);
+//   // await suckMeterReport(firestore);
 //   res.send("woooo");
 // });
 

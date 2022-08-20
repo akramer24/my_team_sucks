@@ -6,11 +6,13 @@
   "license": "MIT",
   "scripts": {
     "emulate": "firebase emulators:start",
+    "start:server": "http-server -p 8081",
     "test": "firebase emulators:exec 'jest'",
     "test-watch": "firebase emulators:exec 'jest --watch'"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.21.1",
+    "http-server": "^14.1.1",
     "jest": "^28.1.3"
   }
 }

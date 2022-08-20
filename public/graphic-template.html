@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Suck Meter Template</title>
+  <meta name="description" content="Template for suck meter graphic">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="gauge.min.js"></script>
+  <style>
+    :root {
+      --container-width: 1200px;
+      --container-height: 675px;
+      --text-color: white;
+    }
+
+    * {
+      box-sizing: border-box;
+      color: var(--text-color);
+    }
+
+    #template-container {
+      display: flex;
+      flex-direction: column;
+      height: var(--container-height);
+      width: var(--container-width);
+      background-image: url("diamond.jpg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: monospace;
+    }
+
+    #template-mask {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .row {
+      display: flex;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card {
+      height: 160px;
+      width: 256px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-large {
+      font-size: 60px;
+    }
+
+    .card-small {
+      font-size: 24px;
+    }
+
+    .gauge-container {
+      height: 150px;
+      width: 250px;
+    }
+
+    .gauge {
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 200px;
+    }
+
+    .gauge-container>.gauge>.dial {
+      stroke: #b3b3b3;
+      stroke-width: 2;
+    }
+
+    .gauge-container>.gauge>.value {
+      stroke: rgb(47, 227, 255);
+      stroke-width: 2;
+    }
+
+    .value-text {
+      fill: var(--text-color);
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="template-container">
+    <div id="template-mask" style="background-color: rgba(222, 27, 30, 0.5);">
+      <div class="column" style="flex: 1;">
+        <div class="row" style="justify-content: space-evenly;">
+          <span style="flex: 1;">@SucksMeter</span>
+          <div style="display: flex; justify-content: center; flex: 2; height: 200px; align-items: flex-end;">
+            <span id="team-abbr" style="font-size: 60px;">TEAM</span>
+          </div>
+          <div style="flex: 1;"></div>
+        </div>
+        <div class="row" style="justify-content: space-around;">
+          <div class="card">
+            <span id="record" class="card-large">53-54</span>
+            <span class="card-small">W-L</span>
+          </div>
+          <div class="card">
+            <span id="last-ten" class="card-large">4-6</span>
+            <span class="card-small">Last 10</span>
+          </div>
+          <div class="card">
+            <span id="games-back" class="card-large">17 GB</span>
+            <span class="card-small">Division</span>
+          </div>
+          <div class="card">
+            <span id="mlb-rank" class="card-large">15</span>
+            <span class="card-small">MLB Rank</span>
+          </div>
+        </div>
+        <div class="column" style="align-items: center;">
+          <div class="card">
+            <div id="suck-meter" class="gauge-container"></div>
+            <span class="card-small">SUCK METER</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    Gauge(
+      document.getElementById("suck-meter"),
+      {
+        dialRadius: 40,
+        dialStartAngle: 135,
+        dialEndAngle: 45,
+        value: 80,
+        max: 100,
+        min: 0,
+        valueDialClass: "value",
+        valueClass: "value-text",
+        dialClass: "dial",
+        gaugeClass: "gauge",
+        showValue: true,
+        gaugeColor: null,
+        color: function (val) { return val > 50 ? 'blue' : 'green' },
+        label: function (val) { return Math.round(val); },
+      }
+    );
+  </script>
+</body>
+
+</html>

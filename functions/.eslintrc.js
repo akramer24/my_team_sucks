@@ -16,5 +16,7 @@ module.exports = {
     "quotes": ["error", "double"],
     "max-len": "off",
     "require-jsdoc": "off",
+    "new-cap": "off",
+    "no-undef": ["warn"],
   },
 };
