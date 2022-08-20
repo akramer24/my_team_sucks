@@ -107,7 +107,7 @@ const processGames = async (firestore) => {
       }
       return result;
     }, {games: {}, teams: {}, count: 0});
-
+    
     if (newFinals.count) {
       const standingsRes = await axios.get(StatsRoutes.STANDINGS);
       for (const division of standingsRes.data?.records) {
@@ -140,7 +140,7 @@ ${idToHashtag[teamId]}`;
                 sportRank,
               });
               const mediaId = await twitterClient.v1.uploadMedia(imageFilePath);
-              await twitterClient.v2.tweet(finalTweet, {media_ids: [mediaId]});
+              await twitterClient.v2.tweet(finalTweet, {media: {media_ids: [mediaId]}});
               newFinals.games[gameId].tweets.push(teamId);
               fs.unlinkSync(imageFilePath);
             } catch (err) {
