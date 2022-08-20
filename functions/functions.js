@@ -107,7 +107,7 @@ const processGames = async (firestore) => {
       }
       return result;
     }, {games: {}, teams: {}, count: 0});
-    
+
     if (newFinals.count) {
       const standingsRes = await axios.get(StatsRoutes.STANDINGS);
       for (const division of standingsRes.data?.records) {
