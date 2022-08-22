@@ -14,7 +14,14 @@ const firestore = admin.firestore();
 // });
 
 // Run every 5 minutes between 12am and 3am: https://crontab.guru/#*/5_0-3_*_*_*
-exports.processGamesLate = functions.pubsub.schedule("*/5 0-3 * * *")
+exports.processGamesLate = functions
+    .runWith({
+    // Ensure the function has enough memory and time
+    // to process large files
+      timeoutSeconds: 300,
+      memory: "4GB",
+    })
+    .pubsub.schedule("*/5 0-3 * * *")
     .timeZone("America/New_York")
     .onRun(async (context) => {
       await processGames(firestore);
@@ -22,7 +29,14 @@ exports.processGamesLate = functions.pubsub.schedule("*/5 0-3 * * *")
     });
 
 // Run every 5 minutes between 2pm and 12am: https://www.adminschoice.com/crontab-quick-reference
-exports.processGamesEarly = functions.pubsub.schedule("*/5 14-23 * * *")
+exports.processGamesEarly = functions
+    .runWith({
+    // Ensure the function has enough memory and time
+    // to process large files
+      timeoutSeconds: 300,
+      memory: "4GB",
+    })
+    .pubsub.schedule("*/5 14-23 * * *")
     .timeZone("America/New_York")
     .onRun(async (context) => {
       await processGames(firestore);
