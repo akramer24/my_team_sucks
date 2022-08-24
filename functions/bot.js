@@ -100,8 +100,8 @@ ${rank} ${this.idToHashtag[id]} ${meter.toFixed(1)}`;
       sportRank,
     });
 
-    // const mediaId = await this.twitterClient.v1.uploadMedia(imageFilePath);
-    // await this.twitterClient.v2.tweet(message, {media: {media_ids: [mediaId]}});
+    const mediaId = await this.twitterClient.v1.uploadMedia(imageFilePath);
+    await this.twitterClient.v2.tweet(message, {media: {media_ids: [mediaId]}});
     fs.unlinkSync(imageFilePath);
 
     const teamRef = this.firestore
