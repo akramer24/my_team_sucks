@@ -1,7 +1,7 @@
 {
-  "name": "red-sox-suck",
+  "name": "my-team-sucks",
   "version": "1.0.0",
-  "description": "How much did the Red Sox suck today?",
+  "description": "How much does your team suck?",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
