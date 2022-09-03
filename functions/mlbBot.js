@@ -188,9 +188,22 @@ class MlbBot extends Bot {
               sportRank,
               lastTenPct: parseFloat(lastTen.pct),
             });
-            const finalTweet = `${pendingTweet} Their suck meter is now ${meterResult.toFixed(1)}.
-            
-${idToHashtag[teamId]}`;
+            let eliminationMessage;
+            if (entry.gamesPlayed > 120) {
+              const league = entry.team.league.id === 103 ? "AL" : "NL";
+              const division = entry.team.division.name.replace("American League", "AL").replace("National League", "NL");
+              if (entry.divisionLeader) {
+                eliminationMessage = entry.divisionChamp ?
+                  `They are the ${division} champs.` :
+                  `Their magic number to clinch the ${division} is ${entry.magicNumber}.`;
+              } else if (entry.wildCardRank && Number(entry.wildCardRank) <= 3) {
+                eliminationMessage = `They hold the ${league}'s No. ${entry.wildCardRank} WC spot. Their ${division} elimination number is ${entry.eliminationNumber}.`;
+              } else {
+                eliminationMessage = `They are ${entry.wildCardGamesBack} GB for the ${league} wild card with an elimination number of ${entry.wildCardEliminationNumber}.`;
+              }
+            }
+            const tail = `Their suck meter is now ${meterResult.toFixed(1)}\n\n${idToHashtag[teamId]}`;
+            const finalTweet = `${pendingTweet} ${eliminationMessage ? ` ${eliminationMessage}\n\n${tail}` : tail}`;
             await this._tweetAndUpdateDb({
               message: finalTweet,
               teamId,
@@ -245,7 +258,7 @@ ${idToHashtag[teamId]}`;
   }
 
   _isFinal(game) {
-    return ["Final", "Game Over"].includes(game.status.detailedState);
+    return game.status.detailedState === "Final";
   }
 
   async _getDateToProcess() {

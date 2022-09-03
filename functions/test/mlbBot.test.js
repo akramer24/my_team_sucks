@@ -193,7 +193,7 @@ describe("MlbBot", () => {
     );
   });
 
-  [["Final", true], ["Game Over", true], ["In Progress", false]].forEach(([status, result]) => {
+  [["Final", true], ["Game Over", false], ["In Progress", false]].forEach(([status, result]) => {
     it(`_isFinal returns ${result} if the game status is ${status}`, () => {
       expect(bot._isFinal({status: {detailedState: status}})).toEqual(result);
     });
