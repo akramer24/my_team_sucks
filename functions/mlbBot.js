@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-const {Sports, StatsRoutes} = require("./enums");
-const {Bot} = require("./bot");
+const { Sports, StatsRoutes } = require("./enums");
+const { Bot } = require("./bot");
 
 const idToScreenshotInfo = {
   "108": {
@@ -162,7 +162,7 @@ const idToHashtag = {
 
 class MlbBot extends Bot {
   constructor(firestore) {
-    super({firestore, idToHashtag, idToScreenshotInfo, sport: Sports.BASE, year: "2022"});
+    super({ firestore, idToHashtag, idToScreenshotInfo, sport: Sports.BASE, year: "2022" });
   }
 
   async processGames() {
@@ -177,7 +177,7 @@ class MlbBot extends Bot {
           if (!newFinals.teams[teamId]) {
             continue;
           }
-          const {gameId, name: teamName, tweet: pendingTweet} = newFinals.teams[teamId];
+          const { gameId, name: teamName, tweet: pendingTweet } = newFinals.teams[teamId];
           if (pendingTweet) {
             const gamesBack = parseFloat(entry.gamesBack.replace("-", "0").replace("+", "-"));
             const lastTen = entry.records.splitRecords.find((rec) => rec.type === "lastTen");
@@ -199,7 +199,10 @@ class MlbBot extends Bot {
               } else if (entry.wildCardRank && Number(entry.wildCardRank) <= 3) {
                 eliminationMessage = `They hold the ${league}'s No. ${entry.wildCardRank} WC spot. Their ${division} elimination number is ${entry.eliminationNumber}.`;
               } else {
-                eliminationMessage = `They are ${entry.wildCardGamesBack} GB for the ${league} wild card with an elimination number of ${entry.wildCardEliminationNumber}.`;
+                const wcEliminationNumber = Number(entry.wildCardEliminationNumber);
+                eliminationMessage = Number.isNaN(wcEliminationNumber) || wcEliminationNumber === 0 ?
+                  'They are eliminated from playoff contention.' :
+                  `They are ${entry.wildCardGamesBack} GB for the ${league} wild card with an elimination number of ${entry.wildCardEliminationNumber}.`;
               }
             }
             const tail = `Their suck meter is now ${meterResult.toFixed(1)}\n\n${idToHashtag[teamId]}`;
@@ -247,13 +250,13 @@ class MlbBot extends Bot {
   }
 
   _getTeamsFromGame(game) {
-    const {away, home} = game.teams;
-    const {winner, loser} = away.isWinner ? ({winner: away, loser: home}) : ({winner: home, loser: away});
+    const { away, home } = game.teams;
+    const { winner, loser } = away.isWinner ? ({ winner: away, loser: home }) : ({ winner: home, loser: away });
     const winnerId = String(winner.team.id);
     const loserId = String(loser.team.id);
     return {
-      winner: {name: winner.team.name, id: winnerId, score: winner.score},
-      loser: {name: loser.team.name, id: loserId, score: loser.score},
+      winner: { name: winner.team.name, id: winnerId, score: winner.score },
+      loser: { name: loser.team.name, id: loserId, score: loser.score },
     };
   }
 
@@ -272,4 +275,4 @@ class MlbBot extends Bot {
   }
 }
 
-module.exports = {MlbBot};
+module.exports = { MlbBot };
