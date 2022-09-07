@@ -195,14 +195,19 @@ class MlbBot extends Bot {
               if (entry.divisionLeader) {
                 eliminationMessage = entry.divisionChamp ?
                   `They are the ${division} champs.` :
-                  `Their magic number to clinch the ${division} is ${entry.magicNumber}.`;
+                    entry.magicNumber ?
+                      `Their magic number to clinch the ${division} is ${entry.magicNumber}.` :
+                      "";
               } else if (entry.wildCardRank && Number(entry.wildCardRank) <= 3) {
                 eliminationMessage = `They hold the ${league}'s No. ${entry.wildCardRank} WC spot. Their ${division} elimination number is ${entry.eliminationNumber}.`;
               } else {
                 const wcEliminationNumber = Number(entry.wildCardEliminationNumber);
-                eliminationMessage = Number.isNaN(wcEliminationNumber) || wcEliminationNumber === 0 ?
-                  "They are eliminated from playoff contention." :
-                  `They are ${entry.wildCardGamesBack} GB for the ${league} wild card with an elimination number of ${entry.wildCardEliminationNumber}.`;
+                const wcGb = entry.wildCardGamesBack;
+                eliminationMessage = wcGb === "-" ?
+                  `They are 0 GB for the ${league} wild card.` :
+                  Number.isNaN(wcEliminationNumber) || wcEliminationNumber === 0 ?
+                    "They are eliminated from playoff contention." :
+                    `They are ${wcGb} GB for the ${league} wild card with an elimination number of ${entry.wildCardEliminationNumber}.`;
               }
             }
             const tail = `Their suck meter is now ${meterResult.toFixed(1)}\n\n${idToHashtag[teamId]}`;
