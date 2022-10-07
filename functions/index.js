@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: 0 */
 const functions = require("firebase-functions");
 const initializeFirebaseAdmin = require("./initializeFirebaseAdmin");
 const {MlbBot} = require("./mlbBot");
